@@ -4,13 +4,34 @@ import Fab from '@material-ui/core/Fab';
 import {Row, Col} from 'react-bootstrap';
 import AddIcon from '@material-ui/icons/Add';
 import './App.css';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions } from '@material-ui/core';
 
 interface IState {
-  vertical: any,
-  horizontal: any,
+  open: boolean
 }
 
 class App extends React.Component<{}, IState> {
+  constructor(props: any) {
+    super(props);
+
+    this.state = {
+      open: false,
+    }
+
+    this.handleClose = this.handleClose.bind(this)
+    this.handleClickOpen = this.handleClickOpen.bind(this)
+  }
+  public handleClickOpen() {
+    this.setState({
+      open: true,
+    });
+  }
+
+  public handleClose() {
+    this.setState({
+      open: false,
+    });
+  }
   public render() {
     return (
       <React.Fragment>
@@ -23,11 +44,43 @@ class App extends React.Component<{}, IState> {
               </h1>
             </Col>
             <Col md={6} style={{textAlign: "right"}}>
-              <Button color="inherit" className="Login-button">Login</Button>  
+              <Button color="inherit" className="Login-button" style={{ outline: "none" }}>Login</Button>  
             </Col>
           </Row>
         </header>
-        <Fab style={{position: "fixed", bottom: 10, right: 10}}>
+        <Dialog open={this.state.open} onClose={this.handleClose}>
+          <DialogTitle>Add a Thing To Do</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              To add something to your To:Do list, please add a title and description of a task you need to complete.
+              A card will be added to your list.
+            </DialogContentText>
+            <TextField
+              autoFocus={true}
+              margin="dense"
+              id="name"
+              label="Title"
+              fullWidth={true}
+            />
+            <TextField
+              autoFocus={true}
+              margin="dense"
+              id="name"
+              label="Description"
+              fullWidth={true}
+            />
+            
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary" style={{ outline: "none" }}>
+              Cancel
+            </Button>
+            <Button onClick={this.handleClose} color="primary" style={{outline: "none" }}>
+              Create
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Fab style={{position: "fixed", bottom: 10, right: 10, outline: "none"}} onClick={this.handleClickOpen}>
           <AddIcon />
         </Fab>
       </React.Fragment>
