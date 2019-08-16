@@ -38,7 +38,7 @@ class MediaCard extends React.Component<IProps, IState> {
     }
         
     public deleteItems = () => {
-        fetch("https://localhost:5001/api/Todo/" + this.props.id, {
+        fetch("https://todolistapidevops.azurewebsites.net/api/Todo/" + this.props.id, {
             method: 'DELETE'
         }).then((response: any) => this.props.refresh());
     }

@@ -30,7 +30,7 @@ class UpdateDialog extends React.Component<IProps, {}> {
         const description = descriptionElement.value;
         const body = { "taskId": this.props.id, "taskTitle": name, "taskDescription": description }
 
-        fetch("https://localhost:5001/api/Todo/" + this.props.id, {
+        fetch("https://todolistapidevops.azurewebsites.net/api/Todo/" + this.props.id, {
             body: JSON.stringify(body),
             headers: {
                 Accept: "text/plain",

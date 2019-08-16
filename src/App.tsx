@@ -83,7 +83,7 @@ class App extends React.Component<{}, IState> {
     const description = descriptionElement.value;
     const body = { "taskTitle": name, "taskDescription": description}
 
-    fetch("https://localhost:5001/api/Todo", {
+    fetch("https://todolistapidevops.azurewebsites.net/api/Todo", {
       body: JSON.stringify(body),
       headers: {
         Accept: "text/plain",
@@ -98,7 +98,7 @@ class App extends React.Component<{}, IState> {
   }
 
   public getItems = () => {
-    fetch("https://localhost:5001/api/Todo", {
+    fetch("https://todolistapidevops.azurewebsites.net/api/Todo", {
       method: "GET"
     }).then((response: any) => response.json())
       .then((response: any) => {
@@ -111,7 +111,7 @@ class App extends React.Component<{}, IState> {
   }
 
   /* public deleteItems = () => {
-    fetch("https://localhost:5001/api/Todo/"+id, {
+    fetch("https://todolistapidevops.azurewebsites.net/api/Todo/"+id, {
       method: "DELETE"
     }).then((response: any) => response.json())
       .then((response: any) => {
