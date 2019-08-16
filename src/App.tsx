@@ -14,6 +14,7 @@ interface IState {
   authenticated: boolean,
   refCamera: any,
   predictionResult: any,
+  todoItems: any;
 }
 
 class App extends React.Component<{}, IState> {
@@ -25,14 +26,15 @@ class App extends React.Component<{}, IState> {
       authenticated: false,
       refCamera: React.createRef(),
       predictionResult: null,
-      webcamOpen: false
+      webcamOpen: false,
+      todoItems: []
     }
     
     this.authenticate = this.authenticate.bind(this)
-    this.handleClose = this.handleClose.bind(this)
     this.handleClickOpen = this.handleClickOpen.bind(this)
     this.handleWebcamOpen = this.handleWebcamOpen.bind(this)
     this.handleWebcamClose = this.handleWebcamClose.bind(this)
+    
   }
   public handleClickOpen() {
     this.setState({
@@ -40,7 +42,7 @@ class App extends React.Component<{}, IState> {
     });
   }
 
-  public handleClose() {
+  public handleClose = () => {
     this.setState({
       open: false,
     });
@@ -58,6 +60,68 @@ class App extends React.Component<{}, IState> {
     })
   }
 
+  public componentDidMount() {
+    this.getItems();
+  }
+
+  public postTODOItem = () => {
+
+    const nameElement = document.getElementById("name") as HTMLInputElement;
+    const descriptionElement = document.getElementById("description") as HTMLInputElement;
+    if(nameElement == null) {
+      alert("There is no name");
+      return;
+    }
+
+    if(descriptionElement == null) {
+      alert("There is no description")
+      return;
+    }
+
+    const name = nameElement.value;
+    const description = descriptionElement.value;
+    const body = { "taskTitle": name, "taskDescription": description}
+
+    fetch("https://localhost:5001/api/Todo", {
+      body: JSON.stringify(body),
+      headers: {
+        Accept: "text/plain",
+        "Content-Type": "application/json"
+      },
+      method: "POST"
+    }).then((response: any) => response.json())
+    .then((response: any) => {
+      // console.log(this);
+      this.handleClose()
+    });
+  }
+
+  public getItems = () => {
+    fetch("https://localhost:5001/api/Todo", {
+      method: "GET"
+    }).then((response: any) => response.json())
+      .then((response: any) => {
+        // console.log(this);
+        this.setState({
+          todoItems: response
+        })
+        this.handleClose()
+      });
+  }
+
+  /* public deleteItems = () => {
+    fetch("https://localhost:5001/api/Todo/"+id, {
+      method: "DELETE"
+    }).then((response: any) => response.json())
+      .then((response: any) => {
+        // console.log(this);
+        this.setState({
+          todoItems: response
+        })
+        this.handleClose()
+      });
+  } */
+  
   public render() {
     const { authenticated } = this.state
     return (
@@ -78,11 +142,14 @@ class App extends React.Component<{}, IState> {
                 : ""}
           </Row>
         </header>
-        <MediaCard />
-        <MediaCard />
-        <MediaCard />
-        <MediaCard />
-        <MediaCard />
+
+        {
+          this.state.todoItems.map((item: any) => {
+             return (
+                <MediaCard key = {item.taskTitle} title={item.taskTitle} description = {item.taskDescription}  />
+             )})
+        }
+
         <Dialog open={this.state.webcamOpen} onClose={this.handleWebcamClose}>
 
           <DialogContent>
@@ -109,10 +176,9 @@ class App extends React.Component<{}, IState> {
               fullWidth={true}
             />
             <TextField
-              autoFocus={true}
               margin="dense"
-              id="name"
               label="Description"
+              id="description"
               fullWidth={true}
             />
             
@@ -121,7 +187,7 @@ class App extends React.Component<{}, IState> {
             <Button onClick={this.handleClose} color="primary" style={{ outline: "none" }}>
               Cancel
             </Button>
-            <Button onClick={this.handleClose} color="primary" style={{outline: "none" }}>
+            <Button onClick={this.postTODOItem} color="primary" style={{outline: "none" }}>
               Create
             </Button>
           </DialogActions>
