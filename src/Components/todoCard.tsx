@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import UpdateDialog from './TODODialog';
 import '../App.css';
 import { Dialog, DialogContent, DialogTitle, ListItem, List, ListItemAvatar, Avatar, ListItemText } from '@material-ui/core';
-import { FacebookShareButton, TwitterShareButton, FacebookIcon, TwitterIcon, LinkedinShareButton} from 'react-share';
+import { FacebookShareButton, TwitterShareButton, FacebookIcon, TwitterIcon, LinkedinShareButton, LinkedinIcon} from 'react-share';
 
 interface IProps {
     id: number, 
@@ -108,7 +108,7 @@ class MediaCard extends React.Component<IProps, IState> {
                                 <Avatar>
                                     <LinkedinShareButton
                                         url={'https://linkedin.com'}>
-                                        <TwitterIcon />
+                                        <LinkedinIcon />
                                     </LinkedinShareButton>
                                 </Avatar>
                             </ListItemAvatar>
