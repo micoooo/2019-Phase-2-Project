@@ -1,5 +1,84 @@
 import * as React from 'react';
 
-class TODODialog extends React.Component<IProps, {}> {
-    
+import { Dialog, DialogContent, Button, DialogTitle, DialogContentText, TextField, DialogActions } from '@material-ui/core';
+
+interface IProps {
+    open: boolean,
+    toggleOpen: any
+    id: number,
+    title: string,
+    description: string,
+    refresh: any
 }
+
+class UpdateDialog extends React.Component<IProps, {}> {
+
+    public updateItem = () => {
+        const nameElement = document.getElementById("name") as HTMLInputElement;
+        const descriptionElement = document.getElementById("description") as HTMLInputElement;
+        if (nameElement == null) {
+            alert("There is no name");
+            return;
+        }
+
+        if (descriptionElement == null) {
+            alert("There is no description")
+            return;
+        }
+
+        const name = nameElement.value;
+        const description = descriptionElement.value;
+        const body = { "taskId": this.props.id, "taskTitle": name, "taskDescription": description }
+
+        fetch("https://localhost:5001/api/Todo/" + this.props.id, {
+            body: JSON.stringify(body),
+            headers: {
+                Accept: "text/plain",
+                "Content-Type": "application/json"
+            },
+            method: "PUT"
+        }).then((response: any) => {
+                // console.log(this);
+                this.props.refresh();
+                this.props.toggleOpen()
+            });
+    }
+    public render() {
+        return(
+            <Dialog open={this.props.open} onClose={this.props.toggleOpen}>
+                <DialogTitle>Add a Thing To Do</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        To add something to your To:Do list, please add a title and description of a task you need to complete.
+                        A card will be added to your list.
+                </DialogContentText>
+                    <TextField
+                        autoFocus={true}
+                        margin="dense"
+                        id="name"
+                        defaultValue = {this.props.title}
+                        label="Title"
+                        fullWidth={true}
+                    />
+                    <TextField
+                        margin="dense"
+                        label="Description"
+                        defaultValue = {this.props.description}
+                        id="description"
+                        fullWidth={true}
+                    />
+
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={this.props.toggleOpen} color="primary" style={{ outline: "none" }}>
+                        Cancel
+                </Button>
+                    <Button onClick={this.updateItem} color="primary" style={{ outline: "none" }}>
+                        Update
+                </Button>
+                </DialogActions>
+            </Dialog>);
+    }
+}
+
+export default UpdateDialog;

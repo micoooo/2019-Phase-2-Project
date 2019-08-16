@@ -144,9 +144,9 @@ class App extends React.Component<{}, IState> {
         </header>
 
         {
-          this.state.todoItems.map((item: any) => {
+          this.state.todoItems.map((item: any, i :number) => {
              return (
-                <MediaCard key = {item.taskTitle} title={item.taskTitle} description = {item.taskDescription}  />
+                <MediaCard key = {item.taskTitle + i} id = {item.taskId} refresh = {this.getItems} title={item.taskTitle} description = {item.taskDescription}  />
              )})
         }
 
@@ -195,6 +195,9 @@ class App extends React.Component<{}, IState> {
         <Fab style={{position: "fixed", bottom: 10, right: 10, outline: "none"}} onClick={this.handleClickOpen}>
           <AddIcon />
         </Fab>
+        <footer>
+          <div id="google_translate_element" />
+        </footer>
       </React.Fragment>
     );
   }

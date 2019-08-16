@@ -4,10 +4,13 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import UpdateDialog from './TODODialog';
 
 interface IProps {
+    id: number, 
     title: string,
     description: string,
+    refresh: any
 }
 
 interface IState {
@@ -23,14 +26,21 @@ class MediaCard extends React.Component<IProps, IState> {
         }
     }
 
-    // public deleteItems = () => {
-    //     fetch("https://localhost:5001/api/Todo/" + this.props.id, {
-    //         method: 'DELETE'
-    //     }).then((response: any) => this.props.refresh());
-    // }
+    public toggleOpen = () => {
+        this.setState((prevState: any) => {
+            return {open: !prevState.open}}
+            )
+    }
+
+    public deleteItems = () => {
+        fetch("https://localhost:5001/api/Todo/" + this.props.id, {
+            method: 'DELETE'
+        }).then((response: any) => this.props.refresh());
+    }
 
     public render() {
         return (
+            <React.Fragment>
             <Card >
                 <CardContent>
                     <Typography gutterBottom={true} variant="h5" component="h2">
@@ -41,11 +51,13 @@ class MediaCard extends React.Component<IProps, IState> {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button size="small" color="primary" style={{ outline: "none" }}>Edit</Button>
+                    <Button size="small" color="primary" style={{ outline: "none" }} onClick = {this.toggleOpen}>Edit</Button>
                     <Button size="small" color="primary" style={{ outline: "none" }}>Share</Button>
-                    <Button size="small" color="primary" style={{ outline: "none" }}>Remove</Button>
+                    <Button size="small" color="primary" style={{ outline: "none" }} onClick = {this.deleteItems}>Remove</Button>
                 </CardActions>
             </Card>
+                <UpdateDialog id={this.props.id} refresh={this.props.refresh} title={this.props.title} description={this.props.description}  open = {this.state.open} toggleOpen = {this.toggleOpen} />
+            </React.Fragment>
         );
     }
 }
