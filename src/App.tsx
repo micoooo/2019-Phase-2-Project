@@ -124,6 +124,52 @@ class App extends React.Component<{}, IState> {
   
   public render() {
     const { authenticated } = this.state
+
+    const middleContent = (
+    <React.Fragment>
+
+      {
+          this.state.todoItems.map((item: any, i: number) => {
+            return (
+              <MediaCard key={item.taskTitle + i} id={item.taskId} refresh={this.getItems} title={item.taskTitle} description={item.taskDescription} />
+            )
+          })
+      }
+      <Dialog open={this.state.open} onClose={this.handleClose}>
+      <DialogTitle>Add a Thing To Do</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          To add something to your To:Do list, please add a title and description of a task you need to complete.
+          A card will be added to your list.
+            </DialogContentText>
+        <TextField
+          autoFocus={true}
+          margin="dense"
+          id="name"
+          label="Title"
+          fullWidth={true}
+        />
+        <TextField
+          margin="dense"
+          label="Description"
+          id="description"
+          fullWidth={true}
+        />
+
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={this.handleClose} color="primary" style={{ outline: "none" }}>
+          Cancel
+            </Button>
+        <Button onClick={this.postTODOItem} color="primary" style={{ outline: "none" }}>
+          Create
+            </Button>
+      </DialogActions>
+    </Dialog>
+      <Fab style={{ position: "fixed", bottom: 10, right: 10, outline: "none" }} onClick={this.handleClickOpen}>
+        <AddIcon />
+      </Fab>
+      </React.Fragment>);
     return (
       <React.Fragment>
         <header className="App-header">
@@ -142,12 +188,9 @@ class App extends React.Component<{}, IState> {
                 : ""}
           </Row>
         </header>
-
+        
         {
-          this.state.todoItems.map((item: any, i :number) => {
-             return (
-                <MediaCard key = {item.taskTitle + i} id = {item.taskId} refresh = {this.getItems} title={item.taskTitle} description = {item.taskDescription}  />
-             )})
+          this.state.authenticated ? middleContent: <div>Please login</div>
         }
 
         <Dialog open={this.state.webcamOpen} onClose={this.handleWebcamClose}>
@@ -161,40 +204,7 @@ class App extends React.Component<{}, IState> {
             <Button color="inherit" style={{ outline: "none" }} onClick={this.authenticate}>Login</Button>
           </DialogContent>
         </Dialog>
-        <Dialog open={this.state.open} onClose={this.handleClose}>
-          <DialogTitle>Add a Thing To Do</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              To add something to your To:Do list, please add a title and description of a task you need to complete.
-              A card will be added to your list.
-            </DialogContentText>
-            <TextField
-              autoFocus={true}
-              margin="dense"
-              id="name"
-              label="Title"
-              fullWidth={true}
-            />
-            <TextField
-              margin="dense"
-              label="Description"
-              id="description"
-              fullWidth={true}
-            />
-            
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary" style={{ outline: "none" }}>
-              Cancel
-            </Button>
-            <Button onClick={this.postTODOItem} color="primary" style={{outline: "none" }}>
-              Create
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <Fab style={{position: "fixed", bottom: 10, right: 10, outline: "none"}} onClick={this.handleClickOpen}>
-          <AddIcon />
-        </Fab>
+        
         <footer>
           <div id="google_translate_element" />
         </footer>
