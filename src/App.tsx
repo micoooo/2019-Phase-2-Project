@@ -92,7 +92,7 @@ class App extends React.Component<{}, IState> {
       method: "POST"
     }).then((response: any) => response.json())
     .then((response: any) => {
-      // console.log(this);
+      this.getItems();
       this.handleClose()
     });
   }
