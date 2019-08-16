@@ -7,6 +7,7 @@ import './App.css';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions } from '@material-ui/core';
 import MediaCard from './Components/todoCard'
 import * as Webcam from "react-webcam";
+import Logo from './tick-resized.png'
 
 interface IState {
   open: boolean,
@@ -166,7 +167,7 @@ class App extends React.Component<{}, IState> {
             </Button>
       </DialogActions>
     </Dialog>
-      <Fab style={{ position: "fixed", bottom: 10, right: 10, outline: "none" }} onClick={this.handleClickOpen}>
+        <Fab style={{ position: "fixed", bottom: 10, right: 10, outline: "none", color: 'inherit' }} onClick={this.handleClickOpen}>
         <AddIcon />
       </Fab>
       </React.Fragment>);
@@ -179,6 +180,7 @@ class App extends React.Component<{}, IState> {
                 <span className="menlo-font">TO:DO</span>
                 <span> list</span>
               </h1>
+              <img src={ Logo } alt='temp' width='80'/>
             </Col>
               {(!authenticated) ?
   
@@ -197,11 +199,12 @@ class App extends React.Component<{}, IState> {
 
           <DialogContent>
             <Webcam
+              width={555}
               audio={false}
               screenshotFormat="image/jpeg"
               ref={this.state.refCamera}
             />
-            <Button color="inherit" style={{ outline: "none" }} onClick={this.authenticate}>Login</Button>
+            <Button color="inherit" style={{ outline: "none", justifyContent: 'center'}} onClick={this.authenticate}>Login</Button>
           </DialogContent>
         </Dialog>
         

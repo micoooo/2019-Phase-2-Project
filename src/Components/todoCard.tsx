@@ -5,6 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import UpdateDialog from './TODODialog';
+import '../App.css';
 
 interface IProps {
     id: number, 
@@ -20,28 +21,28 @@ interface IState {
 class MediaCard extends React.Component<IProps, IState> {
     constructor(props: any) {
         super(props);
-
+        
         this.state = {
             open: false
         }
     }
-
+    
     public toggleOpen = () => {
         this.setState((prevState: any) => {
             return {open: !prevState.open}}
             )
-    }
-
-    public deleteItems = () => {
-        fetch("https://localhost:5001/api/Todo/" + this.props.id, {
-            method: 'DELETE'
-        }).then((response: any) => this.props.refresh());
-    }
-
-    public render() {
+        }
+        
+        public deleteItems = () => {
+            fetch("https://localhost:5001/api/Todo/" + this.props.id, {
+                method: 'DELETE'
+            }).then((response: any) => this.props.refresh());
+        }
+        
+        public render() {
         return (
             <React.Fragment>
-            <Card >
+                <Card style={{ width: '80%', margin: '0 auto', paddingBottom: '10px' }}>
                 <CardContent>
                     <Typography gutterBottom={true} variant="h5" component="h2">
                         {this.props.title}

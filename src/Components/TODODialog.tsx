@@ -46,11 +46,10 @@ class UpdateDialog extends React.Component<IProps, {}> {
     public render() {
         return(
             <Dialog open={this.props.open} onClose={this.props.toggleOpen}>
-                <DialogTitle>Add a Thing To Do</DialogTitle>
+                <DialogTitle>Edit a TODO</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        To add something to your To:Do list, please add a title and description of a task you need to complete.
-                        A card will be added to your list.
+                        To edit something in your TO:DO list, modify the fields and your changes will be saved.
                 </DialogContentText>
                     <TextField
                         autoFocus={true}
